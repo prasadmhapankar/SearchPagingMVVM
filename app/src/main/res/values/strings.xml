@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FlickrPhotos</string>
+    <string name="network_connection_error">Internet connection lost. Please try again!</string>
+</resources>
