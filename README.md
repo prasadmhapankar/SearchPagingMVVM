@@ -1,4 +1,4 @@
-# Image Viewwer App
+# Image Viewer App
 A simple image viewer app with endless scrolling
 **Technologies used**
 - Dagger2 
