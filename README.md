@@ -1,4 +1,5 @@
-# SearchPagingMVVM
+# Image Viewwer App
+A simple image viewer app with endless scrolling
 **Technologies used**
 - Dagger2 
 - Retrofit
