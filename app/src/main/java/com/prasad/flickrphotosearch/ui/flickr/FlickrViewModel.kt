@@ -52,6 +52,7 @@ class FlickrViewModel(
                         page += 1
                     },
                     {
+                        handleNetworkError(it)
                     }
                 )
         )
@@ -72,7 +73,7 @@ class FlickrViewModel(
     }
 
     fun reset(t : String) {
-        // reset pageNumber
+        //reset page and new input
         text = t
         page = 1
     }

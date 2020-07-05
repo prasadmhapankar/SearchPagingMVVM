@@ -50,14 +50,23 @@ abstract class BaseFragment<VM : BaseViewModel> : Fragment(){
         setupView(view)
     }
 
-    fun showMessage(message: String) = context?.let { Toaster.show(it, message) }
+    fun showMessage(message: String) = context?.let {
+        Toaster.show(it, message)
+    }
 
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
     protected open fun setupObservers() {
-        // observe
+        viewModel.messageString.observe(this, Observer {
+            it.data?.run {
+                showMessage(this)
+            }
+        })
+
         viewModel.messageStringId.observe(this, Observer {
-            it.data?.run { showMessage(this) }
+            it.data?.run {
+                showMessage(this)
+            }
         })
     }
 

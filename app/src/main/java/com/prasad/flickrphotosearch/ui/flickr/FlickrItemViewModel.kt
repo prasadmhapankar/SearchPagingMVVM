@@ -28,11 +28,10 @@ class FlickrItemViewModel @Inject constructor(
     val photoItem: LiveData<FlickrPhotoItem>? = Transformations.map(data) { it }
 
     fun onItemClick(position: Int) {
-        //messageString.postValue(Resource.success("onItemClick at $position of ${data.value?.name}"))
-        Log.d(TAG, "onItemClick at $position - ${data.value}" )
+        //Log.d(TAG, "onItemClick at $position - ${data.value}" )
     }
 
     override fun onCreate() {
-        Log.d(TAG, "onCreate called")
+        //Log.d(TAG, "onCreate called")
     }
 }

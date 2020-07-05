@@ -11,11 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <ImageView
+        <com.prasad.flickrphotosearch.utils.display.ResizableImageView
             android:id="@+id/iv_flickr"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:scaleType="centerCrop"
             android:foreground="@drawable/black_gradient"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

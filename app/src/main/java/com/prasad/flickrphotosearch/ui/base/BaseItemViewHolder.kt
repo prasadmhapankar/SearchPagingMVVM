@@ -76,6 +76,11 @@ abstract class BaseItemViewHolder<T : Any, VM : BaseItemViewModel<T>>(
     fun showMessage(@StringRes resId: Int) = showMessage(itemView.context.getString(resId))
 
     protected open fun setupObservers() {
+
+        viewModel.messageString.observe(this, Observer {
+            it.data?.run { showMessage(this) }
+        })
+
         viewModel.messageStringId.observe(this, Observer {
             it.data?.run { showMessage(this) }
         })

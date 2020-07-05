@@ -80,6 +80,16 @@ class FlickrFragment : BaseFragment<FlickrViewModel>() {
 
     override fun setupObservers() {
 
+        viewModel.messageString.observe(this, Observer {
+            it.data?.run {
+                showMessage(this)
+            }
+        })
+
+        viewModel.messageStringId.observe(this, Observer {
+            it.data?.run { showMessage(this) }
+        })
+
         viewModel.loading.observe(this, Observer {
             if (it) pb_loading.visibility = View.VISIBLE else pb_loading.visibility = View.GONE
         })

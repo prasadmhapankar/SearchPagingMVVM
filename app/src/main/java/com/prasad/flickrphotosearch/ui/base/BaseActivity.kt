@@ -44,6 +44,13 @@ abstract class BaseActivity<VM : BaseViewModel> : AppCompatActivity() {
     fun showMessage(@StringRes resId: Int) = showMessage(getString(resId))
 
     protected open fun setupObservers() {
+
+        viewModel.messageString.observe(this, Observer {
+            it.data?.run {
+                showMessage(this)
+            }
+        })
+
         viewModel.messageStringId.observe(this, Observer {
             it.data?.run { showMessage(this) }
         })
