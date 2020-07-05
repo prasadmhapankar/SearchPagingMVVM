@@ -7,20 +7,6 @@ import com.google.gson.annotations.SerializedName
  * Created By Prasad on 7/3/20.
  */
 
-/**
-    {
-    "id": "50074773647",
-    "owner": "135847684@N06",
-    "secret": "2421778572",
-    "server": "65535",
-    "farm": 66,
-    "title": "Reinstein Woods Nature Preserve",
-    "ispublic": 1,
-    "isfriend": 0,
-    "isfamily": 0
-    }
- */
-
 
 data class FlickrPhotoItem (
 

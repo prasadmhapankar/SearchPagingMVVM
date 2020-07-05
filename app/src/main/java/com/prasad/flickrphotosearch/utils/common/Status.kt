@@ -8,6 +8,7 @@ package com.prasad.flickrphotosearch.utils.common
 enum class Status {
     SUCCESS,
     ERROR,
+    REFRESH,
     LOADING,
     UNKNOWN
 }

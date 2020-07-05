@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewModel<T>>>(
     parentLifecycle: Lifecycle,
-    private val dataList: ArrayList<T>
-) : RecyclerView.Adapter<VH>() {
+    private var dataList: ArrayList<T>
+) : RecyclerView.Adapter<VH>()  {
 
     private var recyclerView: RecyclerView? = null
 
@@ -90,7 +90,7 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
         holder.bind(dataList[position])
     }
 
-    fun appendData(dataList: List<T>) {
+    fun appendData(dataList: List<T>, page : Int) {
         val oldCount = itemCount
         this.dataList.addAll(dataList)
         val currentCount = itemCount
@@ -98,5 +98,11 @@ abstract class BaseAdapter<T : Any, VH : BaseItemViewHolder<T, out BaseItemViewM
             notifyDataSetChanged()
         else if (oldCount in 1 until currentCount)
             notifyItemRangeChanged(oldCount - 1, currentCount - oldCount)
+    }
+
+    fun replaceList(list: List<T>) {
+        dataList.clear()
+        dataList.addAll(list)
+        notifyDataSetChanged()
     }
 }

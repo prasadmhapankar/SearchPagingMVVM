@@ -1,15 +1,17 @@
 package com.prasad.flickrphotosearch.ui.flickr
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.prasad.flickrphotosearch.data.remote.response.FlickrResponse
+import com.prasad.flickrphotosearch.data.model.FlickrPhotoItem
 import com.prasad.flickrphotosearch.data.repository.FlickrRepository
 import com.prasad.flickrphotosearch.ui.base.BaseViewModel
+import com.prasad.flickrphotosearch.ui.flickr.FlickrFragment.Companion.page
+import com.prasad.flickrphotosearch.ui.flickr.FlickrFragment.Companion.text
 import com.prasad.flickrphotosearch.utils.common.Resource
 import com.prasad.flickrphotosearch.utils.network.NetworkHelper
 import com.prasad.flickrphotosearch.utils.rx.SchedulerProvider
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.processors.PublishProcessor
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created By Prasad on 7/2/20.
@@ -19,28 +21,60 @@ class FlickrViewModel(
     schedulerProvider: SchedulerProvider,
     compositeDisposable: CompositeDisposable,
     networkHelper: NetworkHelper,
-    private val flickrRepository: FlickrRepository
+    private val flickrRepository: FlickrRepository,
+    private var allFlickrList: ArrayList<FlickrPhotoItem>,
+    private val paginator: PublishProcessor<Int>
 ) : BaseViewModel(schedulerProvider, compositeDisposable, networkHelper) {
 
-    private val flickrLiveData: MutableLiveData<Resource<FlickrResponse>> = MutableLiveData()
+    val loading: MutableLiveData<Boolean> = MutableLiveData()
+    val flickrLiveData: MutableLiveData<Resource<List<FlickrPhotoItem>>> = MutableLiveData()
 
-    fun getFlickrPhotos(): LiveData<FlickrResponse> =
-        Transformations.map(flickrLiveData) { it.data }
+    init {
+        compositeDisposable.add(
+            paginator
+                .onBackpressureDrop()
+                .doOnNext {
+                    loading.postValue(true)
+                }
+                .concatMapSingle {
+                    return@concatMapSingle flickrRepository
+                        .executeFlickrSearch(text, 5, page)
+                        .subscribeOn(Schedulers.io())
+                        .doOnError {
+                        }
+                }
+                .subscribe(
+                    {
+                        allFlickrList.addAll(it)
+                        loading.postValue(false)
+                        if(page == 1) flickrLiveData.postValue(Resource.refresh(it))
+                        else flickrLiveData.postValue(Resource.success(it))
+                        page += 1
+                    },
+                    {
+                    }
+                )
+        )
+    }
 
     override fun onCreate() {
-        if(checkInternetConnectionWithMessage()){
-            flickrLiveData.postValue(Resource.loading())
-            compositeDisposable.add(
-                flickrRepository.executeFlickrSearch("flowers", 20, 1)
-                    .subscribeOn(schedulerProvider.io())
-                    .subscribe(
-                        { flickrLiveData.postValue(Resource.success(it)) },
-                        {
-                            //handleNetworkError(it)
-                            flickrLiveData.postValue(Resource.error())
-                        })
-            )
+        if (flickrLiveData.value == null) loadMorePosts()
+    }
+
+    private fun loadMorePosts() {
+        if (checkInternetConnectionWithMessage()) {
+            paginator.onNext(page)
         }
+    }
+
+    fun onLoadMore() {
+        if (loading.value !== null && loading.value == false) loadMorePosts()
+    }
+
+    fun reset(t : String) {
+        // reset pageNumber
+        text = t
+        page = 1
     }
 
 }

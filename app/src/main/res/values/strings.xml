@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">FlickrPhotos</string>
     <string name="network_connection_error">Internet connection lost. Please try again!</string>
+    <string name="search_hint">Enter search text</string>
+    <string name="default_searchtext">nature</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.prasad.flickrphotosearch.data.remote
 
+import com.prasad.flickrphotosearch.data.model.FlickrPhotoItem
 import com.prasad.flickrphotosearch.data.remote.response.FlickrResponse
 import io.reactivex.Single
 import retrofit2.http.GET

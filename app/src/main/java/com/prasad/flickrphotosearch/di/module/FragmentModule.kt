@@ -12,6 +12,7 @@ import com.prasad.flickrphotosearch.utils.rx.SchedulerProvider
 import dagger.Module
 import dagger.Provides
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.processors.PublishProcessor
 
 /**
  * Created By Prasad on 7/2/20.
@@ -32,7 +33,8 @@ class FragmentModule(private val fragment: BaseFragment<*>) {
     ): FlickrViewModel =
         ViewModelProviders.of(fragment,
             ViewModelProviderFactory(FlickrViewModel::class) {
-                FlickrViewModel(schedulerProvider, compositeDisposable, networkHelper, flickrRepository)
+                FlickrViewModel(schedulerProvider, compositeDisposable, networkHelper,
+                    flickrRepository,ArrayList(), PublishProcessor.create())
             }
         ).get(FlickrViewModel::class.java)
 

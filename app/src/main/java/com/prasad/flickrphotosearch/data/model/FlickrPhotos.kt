@@ -7,14 +7,6 @@ import com.google.gson.annotations.SerializedName
  * Created By Prasad on 7/4/20.
  */
 
-/**
-*   "page": 1,
-    "pages": 372075,
-    "perpage": 2,
-    "total": "744149",
-    "photo": []
- */
-
 data class FlickrPhotos(
 
     @Expose

@@ -41,9 +41,6 @@ dependencies {
     // Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout:$constraint_version"
 
-    //paging
-    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
-
     // Material Design
     implementation "com.google.android.material:material:$support_library_version"
 
